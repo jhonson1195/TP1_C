@@ -60,22 +60,23 @@ struct Documento{
         char *Descripcion5;
     };
     
-    
+//Estructura que almacna los datos nesesarios para hacer un nodo de una lista enlazada y la estructura Documento  
 struct Nodo{
     
     struct Documento *Dato;
     struct Nodo *Siguiente; 
     };
-    
+//Estructura que almacena la lizta enlazada  
 struct ListaEnlazada{
         int size;
         struct Nodo *Raiz;
         struct Nodo *Last;   
     };
     
-    
+//Lista enlazada donde se almacena los datos de tipo nodo    
 struct ListaEnlazada Lista={0};
 
+//Agrega un nodo a la lista enlazada
 void agregar(struct Documento *P, struct ListaEnlazada *Lista){
     if(Lista->size==0){
         Lista->size=0;
@@ -99,7 +100,7 @@ void agregar(struct Documento *P, struct ListaEnlazada *Lista){
         }
     }
 
-
+//Imprime todos lo que contiene los nodos
 void imprimir(struct ListaEnlazada *Lista){
     int i=0;
     struct Nodo *Temp;
@@ -129,7 +130,7 @@ void imprimir(struct ListaEnlazada *Lista){
         i++;
     }
 }
-
+//Devuelve un nodo dependiendo del indice
 struct Nodo * Indice(struct ListaEnlazada *Lista, int indice){
     int i=0;
     struct Nodo *Temp;
@@ -144,7 +145,7 @@ struct Nodo * Indice(struct ListaEnlazada *Lista, int indice){
     
    return Temp;
 }
-
+//Devuelce un puntero de char el cual almacena el nuevo string en memoria dinamica
 char * Copiado(char  Arreglo []){
     
     int i=1;
@@ -169,7 +170,7 @@ char * Copiado(char  Arreglo []){
 }
 
 
-
+//Decuelve un puntero de tipo titulo que almacena un maximo de 5 titulos
 struct Titulo * AgregarTitulos(){
     char strtitulo[50];
     struct Titulo *Titulos;
@@ -206,6 +207,7 @@ struct Titulo * AgregarTitulos(){
     return Titulos;
 }
 
+//Devuelve un puntero autor que almacena un maximo de 5 autores
 struct Autor * AgregarAutores(){
     char str[50];
     struct Autor *Autores;
@@ -243,7 +245,7 @@ struct Autor * AgregarAutores(){
     }
     return Autores;
 }
-
+//Devuelve un puntero de tipo descripcion el cual tiene una capacidad maxima de 5 descripciones
 struct Descripcion * AgregarDescipcion(){
     char str[200];
     struct Descripcion *Descripcion;
@@ -281,11 +283,18 @@ struct Descripcion * AgregarDescipcion(){
     }
     return Descripcion;
 }
-
+//Valida tres tipos de formatos de las fecha ingresada
 char * ValidarFecha(){
     char str[15];
     printf("Fecha (Año-Mes-Dia): ");
     scanf(" %s", str);
+    if(isdigit(str[0]) & isdigit(str[1]) & isdigit(str[2]) & isdigit(str[3]) & '\0'== str[4]){
+        return Copiado(str);
+    }
+    if(isdigit(str[0]) & isdigit(str[1]) & isdigit(str[2]) & isdigit(str[3]) & '-'== str[4] & isdigit(str[5]) & isdigit(str[6]) & str[7]=='\0'){
+        return Copiado(str);
+    }
+    
     if(isdigit(str[0]) & isdigit(str[1]) & isdigit(str[2]) & isdigit(str[3]) & isdigit(str[5]) & isdigit(str[6]) & isdigit(str[8]) & isdigit(str[9])){ 
     }
     else{
@@ -300,23 +309,60 @@ char * ValidarFecha(){
     }
     return Copiado(str);
 }
-
-int IdentificardorValidacion(){
-    printf("Identificador numerico automatico %d \n: ", Lista.size);
+//Comprueba el indentificador automatico y manaul el cual es unico
+int IdentificardorValidacion(struct ListaEnlazada *Lista){
+    int i=0;
+    struct Nodo *Temp;
+    Temp=Lista->Raiz;
+    int ID =Lista->size;
+    while(i!=Lista->size){
+        if(Temp->Dato->Identificardor==Lista->size){
+            ID++;
+            Temp=Lista->Raiz;
+            i=0;
+        }else{
+            Temp=Temp->Siguiente;
+            i++; 
+        }
+        
+    }
+    printf("Identificador numerico automatico %d : ", ID);
+    printf("\n");
     printf("Desea cambiar el identificador S/N: ");
     char SN;
     scanf(" %c", &SN);
     if('S'==SN || 's'==SN){
+        Salto:;
         int nu;
         printf("Identificador numerico manual: ");
         scanf(" %d", &nu);
+        int i=0;
+        struct Nodo *Temp;
+        Temp=Lista->Raiz;
+        
+        while(i!=Lista->size){
+            if(Temp->Dato->Identificardor==nu){
+                printf("Este identificardor no esta disponible \n");
+                goto Salto;
+            }
+            i++; 
+        }
         return nu;
     }else{
-        return Lista.size;
+        return ID;
     }
-    
 }
 
+void LenguajeValidacion(){
+    printf("Idioma preterminado: SPA\n");
+    printf("Desea cambiar el idioma S/N: ");
+    char SN;
+    scanf(" %c", &SN);
+    if('S'==SN || 's'==SN){
+        
+    }
+}
+//Funcion donde se pide todad la informacion del documento
 void AgregarMetadatos(){
     char str[200];
     struct Documento *Documentos;
@@ -328,13 +374,39 @@ void AgregarMetadatos(){
     printf("Palabra clave: ");
     scanf(" %s", str);
     Documentos->PalabraClave=Copiado(str);
+    
     Documentos->Fecha=ValidarFecha();
+    Documentos->Identificardor=IdentificardorValidacion(&Lista);
+    
+    printf("Publicador: ");
+    scanf(" %s", str);
+    Documentos->Publicador=Copiado(str);
+    
+    printf("Contribullentes: ");
+    scanf(" %s", str);
+    Documentos->Contibullentes=Copiado(str);
+    
+    printf("Fuente: ");
+    scanf(" %s", str);
+    Documentos->Fuente=Copiado(str);
+    
+    printf("Relacion: ");
+    scanf(" %s", str);
+    Documentos->Relacion=Copiado(str);
+    
+    printf("Covertura: ");
+    scanf(" %s", str);
+    Documentos->Covertura=Copiado(str);
+    
+    printf("Derechos: ");
+    scanf(" %s", str);
+    Documentos->Derechos=Copiado(str);
     
     
     agregar(Documentos, &Lista);
     MenuP();
 }
-
+//Menu de las funcionalidades del programa
 void Menu(){
     int numero;
     printf("\n"
@@ -367,7 +439,7 @@ void Menu(){
 
 
 
-
+//Funcion que ejecuta las otras funciones
 int main() {
     MenuP=Menu;
     MenuP();
