@@ -7,6 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+//#include <io.h>
+#include <fcntl.h>
+//#include <sys\stat.h>
+#include <stdio.h>
+
+
 
 
 /*
@@ -353,14 +359,60 @@ int IdentificardorValidacion(struct ListaEnlazada *Lista){
     }
 }
 
-void LenguajeValidacion(){
+char * LenguajeValidacion(){
     printf("Idioma preterminado: SPA\n");
     printf("Desea cambiar el idioma S/N: ");
     char SN;
     scanf(" %c", &SN);
+    char IDO[10];
     if('S'==SN || 's'==SN){
+        restric:;
+        printf("Idioma: ");
+        scanf(" %s", IDO);
+        //Ingles
+        if(!strncmp("ENG", IDO, 3)){
+            return Copiado(IDO);
+        }
+        //Frances
+        if(!strncmp("FRA", IDO, 3)){
+            return Copiado(IDO);
+        }
+        //Italiano
+        if(!strncmp("ITA", IDO, 3)){
+            return Copiado(IDO);
+        }
+        //Coreano
+        if(!strncmp("KOR", IDO, 3)){
+            return Copiado(IDO);
+        }
+        //Latin
+        if(!strncmp("LAT", IDO, 3)){
+            return Copiado(IDO);
+        }
+        //Portugues
+        if(!strncmp("POR", IDO, 3)){
+            return Copiado(IDO);
+        }
+        //CHino
+        if(!strncmp("ZHO", IDO, 3)){
+            return Copiado(IDO);
+        }
+        
+        printf("Formato invalido o idioma \n");
+        goto restric;
+        
         
     }
+}
+
+char * obtenerPeso(struct Documento *Documentos){
+    
+    FILE *fich;
+    //"/home/jhonson/Escritorio/TP1.pdf"
+    fich=fopen(Documentos->Ruta,"r");
+    fseek(fich, 0L, SEEK_END);
+    printf("test.c ocupa %d bytes", ftell(fich));
+    fclose(fich);
 }
 //Funcion donde se pide todad la informacion del documento
 void AgregarMetadatos(){
@@ -378,29 +430,48 @@ void AgregarMetadatos(){
     Documentos->Fecha=ValidarFecha();
     Documentos->Identificardor=IdentificardorValidacion(&Lista);
     
-    printf("Publicador: ");
-    scanf(" %s", str);
-    Documentos->Publicador=Copiado(str);
     
+    
+    printf("Publicador: ");
+    gets(str);
+    gets(str);
+    if(0!=str[0]){
+        Documentos->Publicador=Copiado(str);
+        printf("%s", Copiado(str));
+    }
     printf("Contribullentes: ");
-    scanf(" %s", str);
-    Documentos->Contibullentes=Copiado(str);
+    gets(str);
+    if(0!=str[0]){
+        Documentos->Contibullentes=Copiado(str);
+    }
     
     printf("Fuente: ");
-    scanf(" %s", str);
-    Documentos->Fuente=Copiado(str);
-    
+    gets(str);
+    if(0!=str[0]){
+        Documentos->Fuente=Copiado(str);
+    }
     printf("Relacion: ");
-    scanf(" %s", str);
-    Documentos->Relacion=Copiado(str);
+    gets(str);
+    if(0!=str[0]){
+        Documentos->Relacion=Copiado(str);
+    }
     
     printf("Covertura: ");
-    scanf(" %s", str);
-    Documentos->Covertura=Copiado(str);
+    gets(str);
+    if(0!=str[0]){
+        Documentos->Covertura=Copiado(str);
+    }
     
     printf("Derechos: ");
-    scanf(" %s", str);
-    Documentos->Derechos=Copiado(str);
+    gets(str);
+    if(0!=str[0]){
+        Documentos->Derechos=Copiado(str);
+    }
+    
+    Documentos->Lenguaje=LenguajeValidacion();
+    
+    //Documentos->Ruta="/home/jhonson/Escritorio/TP1.pdf";
+    obtenerPeso(Documentos);
     
     
     agregar(Documentos, &Lista);
@@ -437,10 +508,24 @@ void Menu(){
    }
 }
 
-
-
 //Funcion que ejecuta las otras funciones
 int main() {
+    
+    
+    
+    
+    
+    
+    /*FILE *fp;
+    fp = popen("pwd", "r");
+
+
+    char h[100];
+    system("pwd");
+    
+    printf("%s",fp);
+    system("mkdir Repositorio");
+    system("cp  /home/jhonson/Escritorio/TP1.pdf  /home/jhonson/Escritorio/g");*/
     MenuP=Menu;
     MenuP();
     
