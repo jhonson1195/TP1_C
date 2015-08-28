@@ -7,9 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include <io.h>
 #include <fcntl.h>
-//#include <sys\stat.h>
 #include <stdio.h>
 
 
@@ -178,24 +176,51 @@ char * Copiado(char  Arreglo []){
 
 //Decuelve un puntero de tipo titulo que almacena un maximo de 5 titulos
 struct Titulo * AgregarTitulos(){
-    char strtitulo[50];
+    char str[100];
     struct Titulo *Titulos;
     Titulos = (struct Titulo *) malloc (sizeof(struct Titulo));
     char SN;
     int i=0;
     while(i!=5){
+        Labe:;
         printf("Titulo del archivo: ");
-        scanf(" %s", strtitulo);
+        scanf(" %s", str);
+        if(  Titulos->Titulo1 !=NULL){
+            if(!strcmp(Titulos->Titulo1, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+         if(  Titulos->Titulo2 !=NULL){
+            if(!strcmp(Titulos->Titulo2, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+        if(  Titulos->Titulo3 !=NULL){
+            if(!strcmp(Titulos->Titulo3, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+         if(  Titulos->Titulo4 !=NULL){
+            if(!strcmp(Titulos->Titulo4, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+        if(  Titulos->Titulo5 !=NULL){
+            if(!strcmp(Titulos->Titulo5, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+        
         switch(i){
-            case 0: {Titulos->Titulo1=Copiado(strtitulo);
+            case 0: {Titulos->Titulo1=Copiado(str);
                      break;}
-            case 1: {Titulos->Titulo2=Copiado(strtitulo);
+            case 1: {Titulos->Titulo2=Copiado(str);
                      break;}
-            case 2: {Titulos->Titulo3=Copiado(strtitulo);
+            case 2: {Titulos->Titulo3=Copiado(str);
                      break;}
-            case 3: {Titulos->Titulo4=Copiado(strtitulo);
+            case 3: {Titulos->Titulo4=Copiado(str);
                      break;}
-            case 4: {Titulos->Titulo5=Copiado(strtitulo);
+            case 4: {Titulos->Titulo5=Copiado(str);
                      break;}
         }
         
@@ -221,8 +246,35 @@ struct Autor * AgregarAutores(){
     char SN;
     int i=0;
     while(i!=5){
+        Labe:;
         printf("Autor del archivo: ");
         scanf(" %s", str);
+        
+        if(  Autores->Autor1 !=NULL){
+            if(!strcmp(Autores->Autor1, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+         if(  Autores->Autor2 !=NULL){
+            if(!strcmp(Autores->Autor2, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+        if(  Autores->Autor3 !=NULL){
+            if(!strcmp(Autores->Autor3, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+         if(  Autores->Autor4 !=NULL){
+            if(!strcmp(Autores->Autor4, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+        if(  Autores->Autor5 !=NULL){
+            if(!strcmp(Autores->Autor5, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
         
         switch(i){
             case 0: {Autores->Autor1=Copiado(str);
@@ -259,8 +311,35 @@ struct Descripcion * AgregarDescipcion(){
     char SN;
     int i=0;
     while(i!=5){
+        Labe:;
         printf("Descripcion del archivo: ");
         scanf(" %s", str);
+        
+        if(  Descripcion->Descripcion1 !=NULL){
+            if(!strcmp(Descripcion->Descripcion1, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+         if(  Descripcion->Descripcion2 !=NULL){
+            if(!strcmp(Descripcion->Descripcion2, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+        if(  Descripcion->Descripcion3 !=NULL){
+            if(!strcmp(Descripcion->Descripcion3, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+         if(  Descripcion->Descripcion4 !=NULL){
+            if(!strcmp(Descripcion->Descripcion4, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
+        if(  Descripcion->Descripcion5 !=NULL){
+            if(!strcmp(Descripcion->Descripcion5, str)){
+            printf("Dato duplicado ingrese de nuevo el dato \n");
+            goto Labe;}
+        }
         
         switch(i){
             case 0: {Descripcion->Descripcion1=Copiado(str);
@@ -405,20 +484,52 @@ char * LenguajeValidacion(){
     }
 }
 
+char * itoa(int n)
+ {  
+    char s[50];
+    char *j;
+     int i, sign;
+ 
+     if ((sign = n) < 0)  /* record sign */
+         n = -n;          /* make n positive */
+     i = 0;
+     do {       /* generate digits in reverse order */
+         s[i++] = n % 10 + '0';   /* get next digit */
+     } while ((n /= 10) > 0);     /* delete it */
+     if (sign < 0)
+         s[i++] = '-';
+     s[i] = '\0';
+     j=s;
+     return j;
+}
+
+
 char * obtenerPeso(struct Documento *Documentos){
-    
+    char ATemp[200]={""};
     FILE *fich;
     //"/home/jhonson/Escritorio/TP1.pdf"
+    char *Temp;
+    Temp=Documentos->Ruta;
+    while(*Temp!='\0'){
+        Temp++;
+    }
+    Temp-=3;
+    
     fich=fopen(Documentos->Ruta,"r");
     fseek(fich, 0L, SEEK_END);
-    printf("test.c ocupa %d bytes", ftell(fich));
+    strcat(ATemp, Temp);
+    strcat(ATemp, "/");
+    strcat(ATemp, itoa(ftell(fich)));
+    strcat(ATemp, " bytes");
     fclose(fich);
+    return Copiado(ATemp);
 }
 //Funcion donde se pide todad la informacion del documento
 void AgregarMetadatos(){
     char str[200];
     struct Documento *Documentos;
     Documentos = (struct Documento *) malloc (sizeof(struct Documento));
+    Documentos->Ruta="/home/jhonson/Escritorio/TP1.pdf";
     Documentos->Titulo=AgregarTitulos();
     Documentos->Autor=AgregarAutores();
     Documentos->Descripcion=AgregarDescipcion();
@@ -470,9 +581,19 @@ void AgregarMetadatos(){
     
     Documentos->Lenguaje=LenguajeValidacion();
     
-    //Documentos->Ruta="/home/jhonson/Escritorio/TP1.pdf";
-    obtenerPeso(Documentos);
-    
+    printf("Formato: %s \n", obtenerPeso(Documentos));
+    char SN;
+    printf("Desea cambiar el formato S/N: ");
+    scanf(" %c", &SN);
+    if('S'==SN || 's'==SN){
+        printf("Formato: ");
+        scanf(" %s", str);
+        Documentos->Formato=Copiado(str);
+        
+    }else{
+        Documentos->Formato=obtenerPeso(Documentos);
+    }
+
     
     agregar(Documentos, &Lista);
     MenuP();
@@ -508,14 +629,10 @@ void Menu(){
    }
 }
 
+
+
 //Funcion que ejecuta las otras funciones
 int main() {
-    
-    
-    
-    
-    
-    
     /*FILE *fp;
     fp = popen("pwd", "r");
 
