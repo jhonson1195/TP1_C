@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h> 
+#include <errno.h>
 
 
 
@@ -122,36 +124,87 @@ void crearXml(FILE *fb,struct Documento *informacion){
 	fprintf ( fb,"</data>\n");
 }
 
-
-//Imprime todos lo que contiene los nodos
-void imprimir(struct ListaEnlazada *Lista){
+//Esto busca el ide dentro del documento y devuelve el nodo que coincide ya con esto nada maes accede a los datos
+struct Documento * BuscarID(struct ListaEnlazada *Lista){
+    int ID;
+    Label:;
+    printf("Identificador: ");
+    scanf(" %d", &ID);
     int i=0;
     struct Nodo *Temp;
     Temp=Lista->Raiz;
     while(i!=Lista->size){
-        printf("Indice en la lista %d \n", i);
-        printf("Titulos: %s %s %s %s %s \n", Temp->Dato->Titulo->Titulo1, Temp->Dato->Titulo->Titulo2, Temp->Dato->Titulo->Titulo3, Temp->Dato->Titulo->Titulo4,Temp->Dato->Titulo->Titulo5);
-        printf("Autores: %s %s %s %s %s \n", Temp->Dato->Autor->Autor1, Temp->Dato->Autor->Autor2, Temp->Dato->Autor->Autor3, Temp->Dato->Autor->Autor4, Temp->Dato->Autor->Autor5);
-        printf("Contribuyente: %s \n", Temp->Dato->Contibullentes);
-        printf("Covertura: %s \n", Temp->Dato->Covertura);
-        printf("Derechos: %s \n", Temp->Dato->Derechos);
-        printf("Descripcion1: %s \n", Temp->Dato->Descripcion->Descripcion1);
-        printf("Descripcion2: %s \n", Temp->Dato->Descripcion->Descripcion2);
-        printf("Descripcion3: %s \n", Temp->Dato->Descripcion->Descripcion3);
-        printf("Descripcion4: %s \n", Temp->Dato->Descripcion->Descripcion4);
-        printf("Descripcion5: %s \n", Temp->Dato->Descripcion->Descripcion5);
-        printf("Fecha: %s \n", Temp->Dato->Fecha);
-        printf("Formato: %s \n", Temp->Dato->Formato);
-        printf("Fuente: %s \n", Temp->Dato->Fuente);
-        printf("Identificador: %d \n", Temp->Dato->Identificardor);
-        printf("Lenguaje: %s \n", Temp->Dato->Lenguaje);
-        printf("Palabra Clave: %s \n", Temp->Dato->PalabraClave);
-        printf("Publicador: %s \n", Temp->Dato->Publicador);
-        printf("Relacion: %s \n", Temp->Dato->Relacion);
-        printf("Tipo: %s \n \n", Temp->Dato->Tipo);
+        if(Temp->Dato->Identificardor==ID){
+            break;
+        }
         Temp=Temp->Siguiente;
         i++;
     }
+    if(i==Lista->size){
+        printf("Identificardor no encontrado");
+        goto Label;
+    }
+    return Temp->Dato;
+    
+}
+
+//Imprime todos lo que contiene los nodos
+void imprimir(){
+    struct Documento *Docu=BuscarID(&Lista);
+    printf("Nombre del archivo: %s\n" ,Docu->NombreArchivo);
+    printf("Titulo: %s\n",Docu->Titulo->Titulo1 );
+    if(Docu->Titulo->Titulo2!=NULL){
+        printf("Titulo2: %s\n",Docu->Titulo->Titulo2 );  
+    }
+    if(Docu->Titulo->Titulo3!=NULL){
+        printf("Titulo3: %s\n",Docu->Titulo->Titulo3 );  
+    }
+      if(Docu->Titulo->Titulo4!=NULL){
+        printf("Titulo4: %s\n",Docu->Titulo->Titulo4 );  
+    }
+      if(Docu->Titulo->Titulo5!=NULL){
+        printf("Titulo5: %s\n",Docu->Titulo->Titulo5 );  
+    }
+    
+    printf("Autor: %s\n",Docu->Autor->Autor1 );
+    if(Docu->Autor->Autor2!=NULL){
+        printf("Autor2: %s\n",Docu->Autor->Autor2 );  
+    }
+    if(Docu->Autor->Autor3!=NULL){
+        printf("Autor3: %s\n",Docu->Autor->Autor3 );  
+    }
+      if(Docu->Autor->Autor4!=NULL){
+        printf("Autor4: %s\n",Docu->Autor->Autor4 );  
+    }
+      if(Docu->Autor->Autor5!=NULL){
+        printf("Autor5: %s\n",Docu->Autor->Autor5 );  
+    }
+    
+    printf("Descripcion: %s\n",Docu->Descripcion->Descripcion1 );
+    if(Docu->Descripcion->Descripcion2!=NULL){
+        printf("Descripcion2: %s\n",Docu->Descripcion->Descripcion2 );  
+    }
+    if(Docu->Descripcion->Descripcion3!=NULL){
+        printf("Descripcion3: %s\n",Docu->Descripcion->Descripcion3 );  
+    }
+      if(Docu->Descripcion->Descripcion4!=NULL){
+        printf("Descripcion4: %s\n",Docu->Descripcion->Descripcion4 );  
+    }
+      if(Docu->Descripcion->Descripcion5!=NULL){
+        printf("Descripcion5: %s\n",Docu->Descripcion->Descripcion5 );  
+    }
+    if(Docu->Contibullentes!=NULL){printf("Contribuyente: %s \n", Docu->Contibullentes);}
+    if(Docu->Covertura!=NULL){printf("Covertura: %s \n", Docu->Covertura);}
+    if(Docu->Derechos!=NULL){printf("Derechos: %s \n", Docu->Derechos);}
+    printf("Fecha: %s \n", Docu->Fecha);
+    printf("Formato: %s \n", Docu->Formato);
+    if(Docu->Fuente!=NULL){printf("Fuente: %s \n", Docu->Fuente);}
+    printf("Identificador: %d \n", Docu->Identificardor);
+    printf("Idioma: %s \n", Docu->Lenguaje);
+    printf("Palabra Clave: %s \n", Docu->PalabraClave);
+    if(Docu->Publicador!=NULL){printf("Publicador: %s \n", Docu->Publicador);}
+    if(Docu->Relacion!=NULL){printf("Relacion: %s \n", Docu->Relacion);}
+    printf("Tipo: %s \n \n", Docu->Tipo);
 }
 //Devuelve un nodo dependiendo del indice
 struct Nodo * Indice(struct ListaEnlazada *Lista, int indice){
@@ -171,15 +224,17 @@ struct Nodo * Indice(struct ListaEnlazada *Lista, int indice){
 //Devuelce un puntero de char el cual almacena el nuevo string en memoria dinamica
 char * Copiado(char  Arreglo []){
     
-    int i=1;
+    int i=0;
     char *Puntero;
     char *Temp;
     while(Arreglo[i]!='\0'){
         i++;
     }
-    i=0;
+    i++;
+    
     Puntero = (char *) malloc (i);
     Temp=Puntero;
+    i=0;
     while(Arreglo[i]!='\0'){
         *Temp=Arreglo[i];
         Temp++;
@@ -390,7 +445,7 @@ struct Descripcion * AgregarDescipcion(){
 //Valida tres tipos de formatos de las fecha ingresada
 char * ValidarFecha(){
     char str[15];
-    printf("Fecha (A�o-Mes-Dia): ");
+    printf("Fecha: ");
     scanf(" %s", str);
     if(isdigit(str[0]) & isdigit(str[1]) & isdigit(str[2]) & isdigit(str[3]) & '\0'== str[4]){
         return Copiado(str);
@@ -399,19 +454,14 @@ char * ValidarFecha(){
         return Copiado(str);
     }
     
-    if(isdigit(str[0]) & isdigit(str[1]) & isdigit(str[2]) & isdigit(str[3]) & isdigit(str[5]) & isdigit(str[6]) & isdigit(str[8]) & isdigit(str[9])){ 
+    if(isdigit(str[0]) & isdigit(str[1]) & isdigit(str[2]) & isdigit(str[3]) & str[4]=='-' & isdigit(str[5]) & isdigit(str[6]) & str[7]=='-' & isdigit(str[8]) & isdigit(str[9])){ 
+        return Copiado(str);
     }
     else{
         printf("Por favor ingrese la fecha deacuerdo al formato ");
         ValidarFecha();
      
     }
-    if(str[4]=='-' & str[7]=='-'){  
-    }else{
-        printf("Por favor ingrese la fecha deacuerdo al formato ");
-        ValidarFecha();
-    }
-    return Copiado(str);
 }
 //Comprueba el indentificador automatico y manaul el cual es unico
 int IdentificardorValidacion(struct ListaEnlazada *Lista){
@@ -543,13 +593,133 @@ char * obtenerPeso(struct Documento *Documentos){
     fclose(fich);
     return Copiado(ATemp);
 }
-//Funcion donde se pide todad la informacion del documento
+
+char Dato1 []={"info:eu-repo/semantics/bacherlorThesis"};
+char Dato2 []={"info:eu-repo/semantics/masterThesis"};
+char Dato3 []={"info:eu-repo/semantics/doctoralThesis"};
+char Dato4 []={"info:eu-repo/semantics/article"};
+char Dato5 []={"info:eu-repo/semantics/report"};
+char Dato6 []={"info:eu-repo/semantics/book"};
+char Dato7 []={"info:eu-repo/semantics/bookPart"};
+char Dato8 []={"info:eu-repo/semantics/review"};
+char Dato9 []={"info:eu-repo/semantics/conferenceObject"};
+char Dato10 []={"info:eu-repo/semantics/lectura"};
+char Dato11[]={"info:eu-repo/semantics/workingPaper"};
+char Dato12[]={"info:eu-repo/semantics/preprint"};
+char Dato13[]={"info:eu-repo/semantics/contributionToPeriodical"};
+char Dato14[]={"info:eu-repo/semantics/patent"};
+char Dato15[]={"info:eu-repo/semantics/other"};
+
+struct Documento * Tipo(struct Documento *Docu){
+    printf("Tipo de documento:  ");
+    printf("1. %s\n"
+            "2. %s\n"
+            "3. %s\n"
+            "4. %s\n"
+            "5. %s\n"
+            "6. %s\n"
+            "7. %s\n"
+            "8. %s\n"
+            "9. %s\n"
+            "10. %s\n"
+            "11. %s\n"
+            "12. %s\n"
+            "13. %s\n"
+            "14. %s\n"
+            "15. %s\n", Dato1, Dato2, Dato3, Dato4, Dato5, Dato6, Dato7, Dato8, Dato9, Dato10, Dato11, Dato12, Dato13, Dato14, Dato15);
+    int numero;
+    printf("Seleccione una opcion: ");
+    scanf("%d", &numero);
+    printf("\n");
+    switch(numero){
+        case 1: {Docu->Tipo=Copiado(Dato1);
+                 break;}
+        case 2: {Docu->Tipo=Copiado(Dato2);
+                 break;}
+        case 3: {Docu->Tipo=Copiado(Dato3);
+                 break;}
+        case 4: {Docu->Tipo=Copiado(Dato4);
+                 break;}
+        case 5: {Docu->Tipo=Copiado(Dato5);
+                 break;}
+        case 6: {Docu->Tipo=Copiado(Dato6);
+                 break;}
+        case 7: {Docu->Tipo=Copiado(Dato7);
+                 break;}
+        case 8: {Docu->Tipo=Copiado(Dato8);
+                 break;}
+        case 9: {Docu->Tipo=Copiado(Dato9);
+                 break;}
+        case 10: {Docu->Tipo=Copiado(Dato10);
+                 break;}
+        case 11: {Docu->Tipo=Copiado(Dato11);
+                  break;}
+        case 12: {Docu->Tipo=Copiado(Dato12);
+                  break;}
+        case 13: {Docu->Tipo=Copiado(Dato13);
+                 break;}
+        case 14: {Docu->Tipo=Copiado(Dato14);
+                 break;}
+        case 15: {Docu->Tipo=Copiado(Dato15);
+                 break;}
+   } 
+}
+
+char cwd[300];
+
+void DirectorioActual(){
+   getcwd(cwd, sizeof(cwd));
+}
+
+int ContarArreglo(char arreglo[]){
+    int i=0;
+    for(i; arreglo[i]!='\0'; i++){}
+    return i;
+}
+char *  ExtraerNombre(char arreglo []){
+    int i=ContarArreglo(arreglo)-1;
+    while(arreglo[i]!='/'){
+        i--;
+    }
+    i++;
+    return Copiado(&arreglo[i]);
+}
+
+void CopiarArchivo(char RutaRaiz[]){
+    char strTemp[200]={""};
+    strcat(strTemp, "cp ");
+    strcat(strTemp, RutaRaiz);
+    strcat(strTemp, " ");
+    strcat(strTemp, cwd);
+    strcat(strTemp, "/Repositorio");
+    printf("%s \n", strTemp);
+    system(strTemp);
+}
+
+char * NuevaRuta(char str[]){
+    char strTemp[200]={""};
+    strcat(strTemp, cwd);
+    strcat(strTemp, "/Repositorio/");
+    strcat(strTemp, ExtraerNombre(str));
+    printf("%s \n", strTemp);
+    return Copiado(strTemp);
+}
+
+//Funcion donde se pide toda la informacion del documento
 void AgregarMetadatos(){
-    char str[200];
+    ///home/jhonson/Escritorio/TP1.pdf
+    char str[200]; 
     struct Documento *Documentos;
     Documentos = (struct Documento *) malloc (sizeof(struct Documento));
-    //Cambiar a un documento existente si no se cae
-    Documentos->Ruta="/home/jhonson/Escritorio/TP1.pdf";
+    
+    printf("Ruta del documento: ");
+    scanf(" %s", str);
+    CopiarArchivo(str);
+    printf("%s" ,NuevaRuta(str));
+    
+    char g[]="/home/jhonson/Escritorio/TP1.pdf"; 
+    Documentos->NombreArchivo=ExtraerNombre(str);
+    Documentos->Ruta=NuevaRuta(str);
     Documentos->Titulo=AgregarTitulos();
     Documentos->Autor=AgregarAutores();
     Documentos->Descripcion=AgregarDescipcion();
@@ -613,7 +783,8 @@ void AgregarMetadatos(){
     }else{
         Documentos->Formato=obtenerPeso(Documentos);
     }
-
+  
+    Tipo(Documentos);
     
     agregar(Documentos, &Lista);
     MenuP();
@@ -622,40 +793,16 @@ void AgregarMetadatos(){
 
 
 
-//Esto busca el ide dentro del documento y devuelve el nodo que coincide ya con esto nada maes accede a los datos
-struct Documento * crear_XML_IngersoID(struct ListaEnlazada *Lista){
-    int ID;
-    Label:;
-    printf("Identificador: ");
-    scanf(" %d", &ID);
-    int i=0;
-    struct Nodo *Temp;
-    Temp=Lista->Raiz;
-    while(i!=Lista->size){
-        if(Temp->Dato->Identificardor==ID){
-            break;
-        }
-        Temp=Temp->Siguiente;
-        i++;
-    }
-    if(i==Lista->size){
-        printf("Identificardor no encontrado");
-        goto Label;
-    }
-    return Temp->Dato;
-    
-}
+
 
 void creaXML(){
-    struct Documento *DatosDocumento= crear_XML_IngersoID(&Lista);
+    struct Documento *DatosDocumento= BuscarID(&Lista);
     //Ejemplos de como ingresar a los datos
     printf(" Autor: %s", DatosDocumento->Autor->Autor1);
     //Trabaje deacuerdo a los que se pide y en orden, y hay un dato es el peso del archivo que solo sirve en mi compu por la 
     //direccion que yo uso
-    
-    
-    
 }
+
 //Menu de las funcionalidades del programa
 void Menu(){
     int numero;
@@ -691,14 +838,10 @@ void Menu(){
 
 //Funcion que ejecuta las otras funciones
 int main() {
-    /*FILE *fp;
-    fp = popen("pwd", "r");
-    char h[100];
-    system("pwd");
-    
-    printf("%s",fp);
+    //Guarda en un arreglo el directorio actual donde se ejecuta c
+    DirectorioActual();
     system("mkdir Repositorio");
-    system("cp  /home/jhonson/Escritorio/TP1.pdf  /home/jhonson/Escritorio/g");*/
+    system("mkdir MetaDatos");
     MenuP=Menu;
     MenuP();
     
