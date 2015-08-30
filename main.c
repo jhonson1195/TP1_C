@@ -551,6 +551,7 @@ char * LenguajeValidacion(){
         
         
     }
+	return Copiado("SPA");
 }
 
 char * itoa(int n)
@@ -717,7 +718,7 @@ void AgregarMetadatos(){
     CopiarArchivo(str);
     printf("%s" ,NuevaRuta(str));
     
-    char g[]="/home/jhonson/Escritorio/TP1.pdf"; 
+ 
     Documentos->NombreArchivo=ExtraerNombre(str);
     Documentos->Ruta=NuevaRuta(str);
     Documentos->Titulo=AgregarTitulos();
@@ -796,12 +797,28 @@ void AgregarMetadatos(){
 
 
 void creaXML(){
+    ///home/jhonson/Escritorio/TP1.pdf
     struct Documento *DatosDocumento= BuscarID(&Lista);
-    //Ejemplos de como ingresar a los datos
-    printf(" Autor: %s", DatosDocumento->Autor->Autor1);
-    //Trabaje deacuerdo a los que se pide y en orden, y hay un dato es el peso del archivo que solo sirve en mi compu por la 
-    //direccion que yo uso
+    char Union[100]={""};
+    strcat(Union, itoa(DatosDocumento->Identificardor));
+    strcat(Union, ".xml");
+    FILE *fb=fopen(Union ,"w");
+    fprintf ( fb,"<?xml version=\"1.0\" encoding=\"utf-8\"?> \n");
+    fprintf ( fb,"<data>\n");
+	fprintf ( fb,"<title> %s </title>\n", DatosDocumento->Titulo->Titulo1);
+	fprintf ( fb,"<creator> %s </creator>\n", DatosDocumento->Autor->Autor1);
+	fprintf ( fb,"<subject> %s </subject>\n", DatosDocumento->PalabraClave);
+	fprintf ( fb,"<description> %s </description>\n", DatosDocumento->Descripcion->Descripcion1);
+	fprintf ( fb,"<date> %s </date>\n", DatosDocumento->Fecha);
+	fprintf ( fb,"<type> %s </type>\n", DatosDocumento->Tipo);
+	fprintf ( fb,"<identifier> %d </identifier>\n", DatosDocumento->Identificardor);
+	fprintf ( fb,"<language> %s </language>\n", DatosDocumento->Lenguaje);
+	fprintf ( fb,"<publisher> %s </publisher>\n", DatosDocumento->Publicador);
+	fprintf ( fb,"</data>\n");
+        
+        MenuP();
 }
+
 
 //Menu de las funcionalidades del programa
 void Menu(){
