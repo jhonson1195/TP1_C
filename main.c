@@ -1,3 +1,4 @@
+
 /* 
  * File:   main.c
  * Author: jhonson
@@ -103,6 +104,24 @@ void agregar(struct Documento *P, struct ListaEnlazada *Lista){
             Lista->Last=NodoAgregar;
         }
     }
+//Genera el archivo xml    
+void crearXml(FILE *fb,struct Documento *informacion){
+	//char nomArchivo[200];
+	fprintf ( fb,"<data>\n");
+	
+	fprintf ( fb,"<title> %s </title>\n",informacion->Titulo->Titulo1);
+	fprintf ( fb,"<creator> %s </creator>\n",informacion->Autor->Autor1);
+	fprintf ( fb,"<subject> %s </subject>\n",informacion->PalabraClave);
+	fprintf ( fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion1);
+	fprintf ( fb,"<date> %s </date>\n",informacion->Fecha);
+	fprintf ( fb,"<type> %s </type>\n",informacion->Tipo);
+	fprintf ( fb,"<identifier> %d </identifier>\n",informacion->Identificardor);
+	fprintf ( fb,"<language> %s </language>\n",informacion->Lenguaje);
+	fprintf ( fb,"<publisher> %s </publisher>\n",informacion->Publicador);
+	
+	fprintf ( fb,"</data>\n");
+}
+
 
 //Imprime todos lo que contiene los nodos
 void imprimir(struct ListaEnlazada *Lista){
@@ -371,7 +390,7 @@ struct Descripcion * AgregarDescipcion(){
 //Valida tres tipos de formatos de las fecha ingresada
 char * ValidarFecha(){
     char str[15];
-    printf("Fecha (Año-Mes-Dia): ");
+    printf("Fecha (A�o-Mes-Dia): ");
     scanf(" %s", str);
     if(isdigit(str[0]) & isdigit(str[1]) & isdigit(str[2]) & isdigit(str[3]) & '\0'== str[4]){
         return Copiado(str);
@@ -529,6 +548,7 @@ void AgregarMetadatos(){
     char str[200];
     struct Documento *Documentos;
     Documentos = (struct Documento *) malloc (sizeof(struct Documento));
+    //Cambiar a un documento existente si no se cae
     Documentos->Ruta="/home/jhonson/Escritorio/TP1.pdf";
     Documentos->Titulo=AgregarTitulos();
     Documentos->Autor=AgregarAutores();
@@ -598,6 +618,44 @@ void AgregarMetadatos(){
     agregar(Documentos, &Lista);
     MenuP();
 }
+
+
+
+
+//Esto busca el ide dentro del documento y devuelve el nodo que coincide ya con esto nada maes accede a los datos
+struct Documento * crear_XML_IngersoID(struct ListaEnlazada *Lista){
+    int ID;
+    Label:;
+    printf("Identificador: ");
+    scanf(" %d", &ID);
+    int i=0;
+    struct Nodo *Temp;
+    Temp=Lista->Raiz;
+    while(i!=Lista->size){
+        if(Temp->Dato->Identificardor==ID){
+            break;
+        }
+        Temp=Temp->Siguiente;
+        i++;
+    }
+    if(i==Lista->size){
+        printf("Identificardor no encontrado");
+        goto Label;
+    }
+    return Temp->Dato;
+    
+}
+
+void creaXML(){
+    struct Documento *DatosDocumento= crear_XML_IngersoID(&Lista);
+    //Ejemplos de como ingresar a los datos
+    printf(" Autor: %s", DatosDocumento->Autor->Autor1);
+    //Trabaje deacuerdo a los que se pide y en orden, y hay un dato es el peso del archivo que solo sirve en mi compu por la 
+    //direccion que yo uso
+    
+    
+    
+}
 //Menu de las funcionalidades del programa
 void Menu(){
     int numero;
@@ -621,7 +679,7 @@ void Menu(){
                  break;}
         case 3: {;
                  break;}
-        case 4: {;
+        case 4: {creaXML();
                  break;}
         case 5: {return;}
         
@@ -635,8 +693,6 @@ void Menu(){
 int main() {
     /*FILE *fp;
     fp = popen("pwd", "r");
-
-
     char h[100];
     system("pwd");
     
@@ -648,6 +704,7 @@ int main() {
     
     return (EXIT_SUCCESS);
 }
+
 
 
 
