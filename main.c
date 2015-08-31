@@ -693,7 +693,6 @@ void CopiarArchivo(char RutaRaiz[]){
     strcat(strTemp, " ");
     strcat(strTemp, cwd);
     strcat(strTemp, "/Repositorio");
-    printf("%s \n", strTemp);
     system(strTemp);
 }
 
@@ -702,7 +701,6 @@ char * NuevaRuta(char str[]){
     strcat(strTemp, cwd);
     strcat(strTemp, "/Repositorio/");
     strcat(strTemp, ExtraerNombre(str));
-    printf("%s \n", strTemp);
     return Copiado(strTemp);
 }
 
@@ -716,9 +714,6 @@ void AgregarMetadatos(){
     printf("Ruta del documento: ");
     scanf(" %s", str);
     CopiarArchivo(str);
-    printf("%s" ,NuevaRuta(str));
-    
- 
     Documentos->NombreArchivo=ExtraerNombre(str);
     Documentos->Ruta=NuevaRuta(str);
     Documentos->Titulo=AgregarTitulos();
@@ -819,6 +814,48 @@ void creaXML(){
         MenuP();
 }
 
+void guardarDatos(struct ListaEnlazada *Lista){
+    ///home/jhonson/Escritorio/TP1.pdf
+    FILE *fb=fopen("Matadatos.txt" ,"w");
+    int i=0;
+    struct Nodo *Temp;
+    Temp=Lista->Raiz;
+    while(i!=Lista->size){
+        fprintf ( fb,"%s\n", Temp->Dato->Autor->Autor1);
+        fprintf ( fb,"%s\n", Temp->Dato->Autor->Autor2);
+        fprintf ( fb,"%s\n", Temp->Dato->Autor->Autor3);
+        fprintf ( fb,"%s\n", Temp->Dato->Autor->Autor4);
+        fprintf ( fb,"%s\n", Temp->Dato->Autor->Autor5);
+        fprintf ( fb,"%s\n", Temp->Dato->Descripcion->Descripcion1);
+        fprintf ( fb,"%s\n", Temp->Dato->Descripcion->Descripcion2);
+        fprintf ( fb,"%s\n", Temp->Dato->Descripcion->Descripcion3);
+        fprintf ( fb,"%s\n", Temp->Dato->Descripcion->Descripcion4);
+        fprintf ( fb,"%s\n", Temp->Dato->Descripcion->Descripcion5);
+        fprintf ( fb,"%s\n", Temp->Dato->Titulo->Titulo1);
+        fprintf ( fb,"%s\n", Temp->Dato->Titulo->Titulo2);
+        fprintf ( fb,"%s\n", Temp->Dato->Titulo->Titulo3);
+        fprintf ( fb,"%s\n", Temp->Dato->Titulo->Titulo4);
+        fprintf ( fb,"%s\n", Temp->Dato->Titulo->Titulo5);
+        fprintf ( fb,"%s\n", Temp->Dato->Contibullentes);
+        fprintf ( fb,"%s\n", Temp->Dato->Covertura);
+        fprintf ( fb,"%s\n", Temp->Dato->Derechos);
+        fprintf ( fb,"%s\n", Temp->Dato->Fecha);
+        fprintf ( fb,"%s\n", Temp->Dato->Formato);
+        fprintf ( fb,"%s\n", Temp->Dato->Fuente);
+        fprintf ( fb,"%d\n", Temp->Dato->Identificardor);
+        fprintf ( fb,"%s\n", Temp->Dato->Lenguaje);
+        fprintf ( fb,"%s\n", Temp->Dato->NombreArchivo);
+        fprintf ( fb,"%s\n", Temp->Dato->PalabraClave);
+        fprintf ( fb,"%s\n", Temp->Dato->Publicador);
+        fprintf ( fb,"%s\n", Temp->Dato->Relacion);
+        fprintf ( fb,"%s\n", Temp->Dato->Ruta);
+        fprintf ( fb,"%s\n", Temp->Dato->Tipo);
+        Temp=Temp->Siguiente;
+        i++;
+    }
+    fclose(fb);
+}
+
 
 //Menu de las funcionalidades del programa
 void Menu(){
@@ -847,7 +884,9 @@ void Menu(){
                  break;}
         case 5: {return;}
         
-        case 6: {return;}
+        case 6: {guardarDatos(&Lista);
+            
+            return;}
    }
 }
 
@@ -855,10 +894,10 @@ void Menu(){
 
 //Funcion que ejecuta las otras funciones
 int main() {
+    
     //Guarda en un arreglo el directorio actual donde se ejecuta c
     DirectorioActual();
     system("mkdir Repositorio");
-    system("mkdir MetaDatos");
     MenuP=Menu;
     MenuP();
     
