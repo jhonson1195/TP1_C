@@ -141,7 +141,7 @@ struct Documento * BuscarID(struct ListaEnlazada *Lista){
         i++;
     }
     if(i==Lista->size){
-        printf("Identificardor no encontrado");
+        printf("Identificardor no encontrado \n");
         goto Label;
     }
     return Temp->Dato;
@@ -205,6 +205,7 @@ void imprimir(){
     if(Docu->Publicador!=NULL){printf("Publicador: %s \n", Docu->Publicador);}
     if(Docu->Relacion!=NULL){printf("Relacion: %s \n", Docu->Relacion);}
     printf("Tipo: %s \n \n", Docu->Tipo);
+    MenuP();
 }
 //Devuelve un nodo dependiendo del indice
 struct Nodo * Indice(struct ListaEnlazada *Lista, int indice){
@@ -734,7 +735,6 @@ void AgregarMetadatos(){
     gets(str);
     if(0!=str[0]){
         Documentos->Publicador=Copiado(str);
-        printf("%s", Copiado(str));
     }
     printf("Contribullentes: ");
     gets(str);
@@ -816,7 +816,7 @@ void creaXML(){
 
 void guardarDatos(struct ListaEnlazada *Lista){
     ///home/jhonson/Escritorio/TP1.pdf
-    FILE *fb=fopen("Matadatos.txt" ,"w");
+    FILE *fb=fopen("Metadatos.txt" ,"w");
     int i=0;
     struct Nodo *Temp;
     Temp=Lista->Raiz;
@@ -854,6 +854,368 @@ void guardarDatos(struct ListaEnlazada *Lista){
         i++;
     }
     fclose(fb);
+}
+
+char * crearString(char *Inicio, int CantidadChar){
+    char *Puntero;
+    char *Temp;
+    CantidadChar++;
+    Puntero = (char *) malloc (CantidadChar);
+    Temp=Puntero;
+    char indice=0;
+    for(indice; indice<CantidadChar; indice++){
+        *Temp=*Inicio;
+        Temp++;
+        Inicio++;
+    }
+    *Temp='\0';
+    return Puntero;
+}
+int comparar(char *str2){
+    char *str1="(null)";
+    while(*str1!='\0'){
+        if(*str1==*str2){
+            str1++;
+            str2++; 
+        }else{
+            break;
+        }
+    }
+    if(*str1==*str2){
+        return 1;
+    }else{
+        return 0;
+    }
+    
+}
+
+void agregarInfoDocumento(struct Documento *Documento, int Linea, char *STRING){
+    switch(Linea){
+        case 0: {
+            Documento->Autor->Autor1=STRING;
+            break;}
+        case 1: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Autor->Autor2=STRING;
+            }
+            else{
+                Documento->Autor->Autor2=NULL;
+            }
+            break;}
+        case 2: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Autor->Autor3=STRING;
+            }
+            else{
+               Documento->Autor->Autor3=NULL;
+            }
+            break;}
+        case 3: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Autor->Autor4=STRING;
+            }
+            else{
+                Documento->Autor->Autor4=NULL;
+            }
+            break;}
+        case 4: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Autor->Autor5=STRING;
+            }
+            else{
+                Documento->Autor->Autor5=NULL;
+            }
+            break;}
+        case 5: {
+            Documento->Descripcion->Descripcion1=STRING;
+            break;}
+        case 6: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Descripcion->Descripcion2=STRING;
+            }
+            else{
+                Documento->Descripcion->Descripcion2=NULL;
+            }
+            break;}
+        case 7: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Descripcion->Descripcion3=STRING;
+            }
+            else{
+                Documento->Descripcion->Descripcion3=NULL;
+            }
+            break;}
+        case 8: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Descripcion->Descripcion4=STRING;
+            }
+            else{
+                Documento->Descripcion->Descripcion4=NULL;
+            }
+            break;}
+        case 9: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Descripcion->Descripcion5=STRING;
+            }
+            else{
+                Documento->Descripcion->Descripcion5=NULL;
+            }
+            break;}
+        case 10: {
+            Documento->Titulo->Titulo1=STRING;
+            break;}
+        case 11: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Titulo->Titulo2=STRING;
+            }
+            else{
+                Documento->Titulo->Titulo2=NULL; 
+            }
+            break;}
+        case 12: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Titulo->Titulo3=STRING;
+            }
+            else{
+                Documento->Titulo->Titulo3=NULL;
+            }
+            break;}
+        case 13: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Titulo->Titulo4=STRING;
+            }
+            else{
+                Documento->Titulo->Titulo4=NULL;
+            }
+            break;}
+        case 14: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Titulo->Titulo5=STRING;
+            }
+            else{
+                Documento->Titulo->Titulo5=NULL;
+            }
+            break;}
+        case 15: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Contibullentes=STRING;
+            }
+            else{
+                Documento->Contibullentes=NULL;
+            }
+            break;
+        }
+        case 16: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Covertura=STRING;
+            }
+            else{
+                Documento->Covertura=NULL;
+            }
+            break;
+        }
+        case 17: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Derechos=STRING;
+            }
+            else{
+                Documento->Derechos=NULL;
+            }
+            break;
+        }
+        case 18: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Fecha=STRING;
+            }
+            else{
+                Documento->Fecha=NULL;
+            }
+            break;
+        }
+        case 19: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Formato=STRING;
+            }
+            else{
+                Documento->Formato=NULL;
+            }
+            break;
+        }
+        case 20: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Fuente=STRING;
+            }
+            else{
+                Documento->Fuente=NULL;
+            }
+            break;
+        }
+        case 21: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Identificardor=atoi(STRING);
+            }
+            break;
+        }
+        case 22: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Lenguaje=STRING;
+            }
+            else{
+                Documento->Lenguaje=NULL;
+            }
+            break;
+        }
+        case 23: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->NombreArchivo=STRING;
+            }
+            else{
+                Documento->NombreArchivo=NULL;
+            }
+            break;
+        }
+        case 24: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->PalabraClave=STRING;
+            }
+            else{
+                Documento->PalabraClave=NULL;
+            }
+            break;
+        }
+        case 25: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Publicador=STRING;
+            }
+            else{
+                Documento->Publicador=NULL;
+            }
+            break;
+        }
+        case 26: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Relacion=STRING;
+            }
+            else{
+                Documento->Relacion=NULL;
+            }
+            break;
+        }
+        case 27: {
+            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+                Documento->Ruta=STRING;
+            }
+            else{
+                Documento->Ruta=NULL;
+            }
+            break;
+        } 
+    }
+    
+}
+
+void cargarDatos(){
+    FILE *leeido;
+    char caracter;
+    int i=1;
+    int g=0;
+    
+    leeido = fopen ( "Metadatos.txt" , "r" );
+    if (leeido==NULL){return;}
+    while (feof(leeido) == 0){
+        caracter = fgetc(leeido);
+        if(caracter=='\n'){
+            g++;
+        }
+        i++;
+    }
+    fclose(leeido);
+    char *Puntero;
+    char *Temp;
+    Puntero = (char *) malloc (i);
+    Temp=Puntero;
+    leeido = fopen ("Metadatos.txt" , "r");
+    while (feof(leeido) == 0){
+        caracter = fgetc(leeido);
+        *Temp=caracter;
+        Temp++;
+    }
+    *Temp='\0';
+    fclose(leeido);
+    
+    char *Inicio;
+    char *Final;
+    Inicio=Puntero;
+    Final=Puntero;
+    i=0;
+    
+    struct Titulo *Titulos;
+    struct Documento *Documentos;
+    struct Descripcion *Descripcion;
+    struct Autor *Autores;
+    Documentos = (struct Documento *) malloc (sizeof(struct Documento));
+    Titulos = (struct Titulo *) malloc (sizeof(struct Titulo));
+    Descripcion = (struct Descripcion *) malloc (sizeof(struct Descripcion));
+    Autores = (struct Autor *) malloc (sizeof(struct Autor));
+    Documentos->Titulo=Titulos;
+    Documentos->Descripcion=Descripcion;
+    Documentos->Autor=Autores;
+    
+    
+    
+    
+    
+    int conta=0;
+    while(*Final!='\0'){
+        if(*Final!='\n'){
+            Final++;
+            i++;
+        }
+        else{
+            if(conta==28){
+                Documentos->Tipo= crearString(Inicio, i);
+                agregar(Documentos, &Lista);
+                conta=0;
+                Documentos = (struct Documento *) malloc (sizeof(struct Documento));
+                Titulos = (struct Titulo *) malloc (sizeof(struct Titulo));
+                Descripcion = (struct Descripcion *) malloc (sizeof(struct Descripcion));
+                Autores = (struct Autor *) malloc (sizeof(struct Autor));
+                Documentos->Titulo=Titulos;
+                Documentos->Descripcion=Descripcion;
+                Documentos->Autor=Autores;
+                
+                i=0;
+                Final++;
+                Inicio=Final;
+                conta=0;
+            }else{
+                agregarInfoDocumento(Documentos, conta, crearString(Inicio, i));
+                printf("%s \n", crearString(Inicio, i-1));
+                i=0;
+                Final++;
+                Inicio=Final;
+                conta++;
+                
+            }
+            
+            
+            
+         }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //printf("%s", Puntero);
+    //printf("sss   %d", g);
+    
+    
+   
 }
 
 
@@ -894,7 +1256,7 @@ void Menu(){
 
 //Funcion que ejecuta las otras funciones
 int main() {
-    
+    cargarDatos();
     //Guarda en un arreglo el directorio actual donde se ejecuta c
     DirectorioActual();
     system("mkdir Repositorio");
