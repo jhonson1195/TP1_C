@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <stdio.h>
 #include <unistd.h> 
 #include <errno.h>
 
@@ -106,24 +105,6 @@ void agregar(struct Documento *P, struct ListaEnlazada *Lista){
             Lista->Last=NodoAgregar;
         }
     }
-//Genera el archivo xml    
-void crearXml(FILE *fb,struct Documento *informacion){
-	//char nomArchivo[200];
-	fprintf ( fb,"<data>\n");
-	
-	fprintf ( fb,"<title> %s </title>\n",informacion->Titulo->Titulo1);
-	fprintf ( fb,"<creator> %s </creator>\n",informacion->Autor->Autor1);
-	fprintf ( fb,"<subject> %s </subject>\n",informacion->PalabraClave);
-	fprintf ( fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion1);
-	fprintf ( fb,"<date> %s </date>\n",informacion->Fecha);
-	fprintf ( fb,"<type> %s </type>\n",informacion->Tipo);
-	fprintf ( fb,"<identifier> %d </identifier>\n",informacion->Identificardor);
-	fprintf ( fb,"<language> %s </language>\n",informacion->Lenguaje);
-	fprintf ( fb,"<publisher> %s </publisher>\n",informacion->Publicador);
-	
-	fprintf ( fb,"</data>\n");
-}
-
 //Esto busca el ide dentro del documento y devuelve el nodo que coincide ya con esto nada maes accede a los datos
 struct Documento * BuscarID(struct ListaEnlazada *Lista){
     int ID;
@@ -794,9 +775,9 @@ void AgregarMetadatos(){
 //Genera el archivo xml
 void creaXML(){
     ///home/jhonson/Escritorio/TP1.pdf
-    struct Documento *DatosDocumento= BuscarID(&Lista);
+    struct Documento *informacion= BuscarID(&Lista);
     char Union[100]={""};
-    strcat(Union, itoa(DatosDocumento->Identificardor));
+    strcat(Union, itoa(informacion->Identificardor));
     strcat(Union, ".xml");
     FILE *fb=fopen(Union ,"w");
     fprintf ( fb,"<?xml version=\"1.0\" encoding=\"utf-8\"?> \n");
@@ -1181,6 +1162,7 @@ void cargarDatos(){
         *Temp=caracter;
         Temp++;
     }
+    
     *Temp='\0';
     fclose(leeido);
     
@@ -1214,7 +1196,7 @@ void cargarDatos(){
         }
         else{
             if(conta==28){
-                Documentos->Tipo= crearString(Inicio, i);
+                Documentos->Tipo= crearString(Inicio, i-1);
                 agregar(Documentos, &Lista);
                 conta=0;
                 Documentos = (struct Documento *) malloc (sizeof(struct Documento));
@@ -1230,33 +1212,16 @@ void cargarDatos(){
                 Inicio=Final;
                 conta=0;
             }else{
-                agregarInfoDocumento(Documentos, conta, crearString(Inicio, i));
-                printf("%s \n", crearString(Inicio, i-1));
+                agregarInfoDocumento(Documentos, conta, crearString(Inicio, i-1));
                 i=0;
                 Final++;
                 Inicio=Final;
                 conta++;
                 
             }
-            
-            
-            
+
          }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //printf("%s", Puntero);
-    //printf("sss   %d", g);
-    
-    
-   
+    }  
 }
 
 
