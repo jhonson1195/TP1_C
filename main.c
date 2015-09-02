@@ -791,6 +791,7 @@ void AgregarMetadatos(){
 
 
 
+//Genera el archivo xml
 void creaXML(){
     ///home/jhonson/Escritorio/TP1.pdf
     struct Documento *DatosDocumento= BuscarID(&Lista);
@@ -799,17 +800,57 @@ void creaXML(){
     strcat(Union, ".xml");
     FILE *fb=fopen(Union ,"w");
     fprintf ( fb,"<?xml version=\"1.0\" encoding=\"utf-8\"?> \n");
-    fprintf ( fb,"<data>\n");
-	fprintf ( fb,"<title> %s </title>\n", DatosDocumento->Titulo->Titulo1);
-	fprintf ( fb,"<creator> %s </creator>\n", DatosDocumento->Autor->Autor1);
-	fprintf ( fb,"<subject> %s </subject>\n", DatosDocumento->PalabraClave);
-	fprintf ( fb,"<description> %s </description>\n", DatosDocumento->Descripcion->Descripcion1);
-	fprintf ( fb,"<date> %s </date>\n", DatosDocumento->Fecha);
-	fprintf ( fb,"<type> %s </type>\n", DatosDocumento->Tipo);
-	fprintf ( fb,"<identifier> %d </identifier>\n", DatosDocumento->Identificardor);
-	fprintf ( fb,"<language> %s </language>\n", DatosDocumento->Lenguaje);
-	fprintf ( fb,"<publisher> %s </publisher>\n", DatosDocumento->Publicador);
+	fprintf ( fb,"<data>\n");
+	
+	fprintf ( fb,"<title> %s </title>\n",informacion->Titulo->Titulo1);
+	if(informacion->Titulo->Titulo2!=NULL){
+        	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo2 );  
+    	}
+    	if(informacion->Titulo->Titulo3!=NULL){
+        	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo3 );  
+    	}
+      	if(informacion->Titulo->Titulo4!=NULL){
+        	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo4 );  
+    	}
+      	if(informacion->Titulo->Titulo5!=NULL){
+        	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo5 );  
+    	}
+	fprintf ( fb,"<creator> %s </creator>\n",informacion->Autor->Autor1);
+	if(informacion->Autor->Autor2!=NULL){
+        	fprintf(fb,"<creator> %s </creator>\n",informacion->Autor->Autor2 );  
+    	}
+    	if(informacion->Autor->Autor3!=NULL){
+        	fprintf(fb,"<creator> %s </creator>\n",informacion->Autor->Autor3 );  
+    	}
+      	if(informacion->Autor->Autor4!=NULL){
+        	fprintf(fb,"<creator> %s </creator>\n",informacion->Autor->Autor4 );  
+    	}
+      	if(informacion->Autor->Autor5!=NULL){
+        	fprintf(fb,"<creator> %s </creator>\n",informacion->Autor->Autor5 );  
+    	}
+	fprintf ( fb,"<subject> %s </subject>\n",informacion->PalabraClave);
+	fprintf ( fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion1);
+	if(informacion->Descripcion->Descripcion2!=NULL){
+        	fprintf(fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion2 );  
+    	}
+    	if(informacion->Descripcion->Descripcion3!=NULL){
+        	fprintf(fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion3 );  
+    	}
+      	if(informacion->Descripcion->Descripcion4!=NULL){
+        	fprintf(fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion4 );  
+    	}
+      	if(informacion->Descripcion->Descripcion5!=NULL){
+        	fprintf(fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion5 );  
+    	}
+	fprintf ( fb,"<date> %s </date>\n",informacion->Fecha);
+	fprintf ( fb,"<type> %s </type>\n",informacion->Tipo);
+	fprintf ( fb,"<identifier> %d </identifier>\n",informacion->Identificardor);
+	fprintf ( fb,"<language> %s </language>\n",informacion->Lenguaje);
+	fprintf ( fb,"<publisher> %s </publisher>\n",informacion->Publicador);
+	
 	fprintf ( fb,"</data>\n");
+
+
         
         MenuP();
 }
