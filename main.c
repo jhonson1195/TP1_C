@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <stdio.h>
 #include <unistd.h> 
 #include <errno.h>
 
@@ -106,24 +105,6 @@ void agregar(struct Documento *P, struct ListaEnlazada *Lista){
             Lista->Last=NodoAgregar;
         }
     }
-//Genera el archivo xml    
-void crearXml(FILE *fb,struct Documento *informacion){
-    //char nomArchivo[200];
-    fprintf ( fb,"<data>\n");
-    
-    fprintf ( fb,"<title> %s </title>\n",informacion->Titulo->Titulo1);
-    fprintf ( fb,"<creator> %s </creator>\n",informacion->Autor->Autor1);
-    fprintf ( fb,"<subject> %s </subject>\n",informacion->PalabraClave);
-    fprintf ( fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion1);
-    fprintf ( fb,"<date> %s </date>\n",informacion->Fecha);
-    fprintf ( fb,"<type> %s </type>\n",informacion->Tipo);
-    fprintf ( fb,"<identifier> %d </identifier>\n",informacion->Identificardor);
-    fprintf ( fb,"<language> %s </language>\n",informacion->Lenguaje);
-    fprintf ( fb,"<publisher> %s </publisher>\n",informacion->Publicador);
-    
-    fprintf ( fb,"</data>\n");
-}
-
 //Esto busca el ide dentro del documento y devuelve el nodo que coincide ya con esto nada maes accede a los datos
 struct Documento * BuscarID(struct ListaEnlazada *Lista){
     int ID;
@@ -552,7 +533,7 @@ char * LenguajeValidacion(){
         
         
     }
-    return Copiado("SPA");
+	return Copiado("SPA");
 }
 
 char * itoa(int n)
@@ -787,45 +768,70 @@ void AgregarMetadatos(){
 }
 
 
-void recuperarDatos(){
-    char pdf1[200] = "pdftk ";
-    char pdf2[200] = "cat output pdfFinal.pdf";
-
-    char pdf3[200]="/home/carlos/Escritorio/prueba.pdf ";
-    char pdf4[200]="/home/carlos/Escritorio/prueba2.pdf ";
-
-    char direccion[200]="";
-
-    strcat(direccion,pdf1);
-    strcat(direccion,pdf3);
-    strcat(direccion,pdf4);
-    strcat(direccion,pdf2);
-    system (direccion);
-
-    MenuP();
-}
 
 
 
+
+//Genera el archivo xml
 void creaXML(){
     ///home/jhonson/Escritorio/TP1.pdf
-    struct Documento *DatosDocumento= BuscarID(&Lista);
+    struct Documento *informacion= BuscarID(&Lista);
     char Union[100]={""};
-    strcat(Union, itoa(DatosDocumento->Identificardor));
+    strcat(Union, itoa(informacion->Identificardor));
     strcat(Union, ".xml");
     FILE *fb=fopen(Union ,"w");
     fprintf ( fb,"<?xml version=\"1.0\" encoding=\"utf-8\"?> \n");
-    fprintf ( fb,"<data>\n");
-    fprintf ( fb,"<title> %s </title>\n", DatosDocumento->Titulo->Titulo1);
-    fprintf ( fb,"<creator> %s </creator>\n", DatosDocumento->Autor->Autor1);
-    fprintf ( fb,"<subject> %s </subject>\n", DatosDocumento->PalabraClave);
-    fprintf ( fb,"<description> %s </description>\n", DatosDocumento->Descripcion->Descripcion1);
-    fprintf ( fb,"<date> %s </date>\n", DatosDocumento->Fecha);
-    fprintf ( fb,"<type> %s </type>\n", DatosDocumento->Tipo);
-    fprintf ( fb,"<identifier> %d </identifier>\n", DatosDocumento->Identificardor);
-    fprintf ( fb,"<language> %s </language>\n", DatosDocumento->Lenguaje);
-    fprintf ( fb,"<publisher> %s </publisher>\n", DatosDocumento->Publicador);
-    fprintf ( fb,"</data>\n");
+	fprintf ( fb,"<data>\n");
+	
+	fprintf ( fb,"<title> %s </title>\n",informacion->Titulo->Titulo1);
+	if(informacion->Titulo->Titulo2!=NULL){
+        	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo2 );  
+    	}
+    	if(informacion->Titulo->Titulo3!=NULL){
+        	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo3 );  
+    	}
+      	if(informacion->Titulo->Titulo4!=NULL){
+        	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo4 );  
+    	}
+      	if(informacion->Titulo->Titulo5!=NULL){
+        	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo5 );  
+    	}
+	fprintf ( fb,"<creator> %s </creator>\n",informacion->Autor->Autor1);
+	if(informacion->Autor->Autor2!=NULL){
+        	fprintf(fb,"<creator> %s </creator>\n",informacion->Autor->Autor2 );  
+    	}
+    	if(informacion->Autor->Autor3!=NULL){
+        	fprintf(fb,"<creator> %s </creator>\n",informacion->Autor->Autor3 );  
+    	}
+      	if(informacion->Autor->Autor4!=NULL){
+        	fprintf(fb,"<creator> %s </creator>\n",informacion->Autor->Autor4 );  
+    	}
+      	if(informacion->Autor->Autor5!=NULL){
+        	fprintf(fb,"<creator> %s </creator>\n",informacion->Autor->Autor5 );  
+    	}
+	fprintf ( fb,"<subject> %s </subject>\n",informacion->PalabraClave);
+	fprintf ( fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion1);
+	if(informacion->Descripcion->Descripcion2!=NULL){
+        	fprintf(fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion2 );  
+    	}
+    	if(informacion->Descripcion->Descripcion3!=NULL){
+        	fprintf(fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion3 );  
+    	}
+      	if(informacion->Descripcion->Descripcion4!=NULL){
+        	fprintf(fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion4 );  
+    	}
+      	if(informacion->Descripcion->Descripcion5!=NULL){
+        	fprintf(fb,"<description> %s </description>\n",informacion->Descripcion->Descripcion5 );  
+    	}
+	fprintf ( fb,"<date> %s </date>\n",informacion->Fecha);
+	fprintf ( fb,"<type> %s </type>\n",informacion->Tipo);
+	fprintf ( fb,"<identifier> %d </identifier>\n",informacion->Identificardor);
+	fprintf ( fb,"<language> %s </language>\n",informacion->Lenguaje);
+	fprintf ( fb,"<publisher> %s </publisher>\n",informacion->Publicador);
+	
+	fprintf ( fb,"</data>\n");
+
+
         
         MenuP();
 }
@@ -1156,6 +1162,7 @@ void cargarDatos(){
         *Temp=caracter;
         Temp++;
     }
+    
     *Temp='\0';
     fclose(leeido);
     
@@ -1189,7 +1196,7 @@ void cargarDatos(){
         }
         else{
             if(conta==28){
-                Documentos->Tipo= crearString(Inicio, i);
+                Documentos->Tipo= crearString(Inicio, i-1);
                 agregar(Documentos, &Lista);
                 conta=0;
                 Documentos = (struct Documento *) malloc (sizeof(struct Documento));
@@ -1205,33 +1212,16 @@ void cargarDatos(){
                 Inicio=Final;
                 conta=0;
             }else{
-                agregarInfoDocumento(Documentos, conta, crearString(Inicio, i));
-                printf("%s \n", crearString(Inicio, i-1));
+                agregarInfoDocumento(Documentos, conta, crearString(Inicio, i-1));
                 i=0;
                 Final++;
                 Inicio=Final;
                 conta++;
                 
             }
-            
-            
-            
+
          }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //printf("%s", Puntero);
-    //printf("sss   %d", g);
-    
-    
-   
+    }  
 }
 
 
@@ -1260,8 +1250,7 @@ void Menu(){
                  break;}
         case 4: {creaXML();
                  break;}
-        case 5: {recuperarDatos();
-                break;}
+        case 5: {return;}
         
         case 6: {guardarDatos(&Lista);
             
