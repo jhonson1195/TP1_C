@@ -768,6 +768,23 @@ void AgregarMetadatos(){
 }
 
 
+void recuperarDatos(){
+    char pdf1[200] = "pdftk ";
+    char pdf2[200] = "cat output pdfFinal.pdf";
+
+    char pdf3[200]="/home/carlos/Escritorio/prueba.pdf ";
+    char pdf4[200]="/home/carlos/Escritorio/prueba2.pdf ";
+
+    char direccion[200]="";
+
+    strcat(direccion,pdf1);
+    strcat(direccion,pdf3);
+    strcat(direccion,pdf4);
+    strcat(direccion,pdf2);
+    system (direccion);
+
+    MenuP();
+}
 
 
 
@@ -1465,7 +1482,8 @@ void Menu(){
                  break;}
         case 4: {creaXML();
                  break;}
-        case 5: {return;}
+        case 5: {recuperarDatos();
+                break;}
         
         case 6: {guardarDatos(&Lista);
             
