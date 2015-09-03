@@ -1225,6 +1225,222 @@ void cargarDatos(){
 }
 
 
+int  Comparacion(char *STR1, char *STR2){
+
+    int Bandera=1;
+    char *TEMP;
+    char *TEMP2;
+    int cantidadCompa;
+    int cantidadstr;
+    
+    
+    while(Bandera){
+        TEMP=STR1;
+        cantidadstr=0;
+        while(*TEMP!='\0'){
+            
+            if(*TEMP==' '){
+                break;
+            }
+            cantidadstr++;
+            TEMP++;
+        }
+        if(*TEMP=='\0'){
+            Bandera=0;
+        }
+        TEMP=STR1;
+        TEMP2=STR2;
+        cantidadCompa=0;
+        
+        while(*TEMP2!='\0'){
+            if(*TEMP2==*TEMP){
+                cantidadCompa++;
+                TEMP++;
+                if(cantidadCompa==cantidadstr){
+                    return 1;
+                }
+            }else{
+                TEMP=STR1;
+                cantidadCompa=0;
+            }
+            TEMP2++; 
+        }
+        TEMP2=STR2;
+        STR1=STR1+cantidadstr+1;
+    }
+    return 0;
+}
+
+struct Resultados{
+    char *Resu;
+    int Identi;
+};
+
+
+
+void BuscarTitulo(char *str){
+    struct Resultados ResulratdosBusqueda [Lista.size];
+    int i=0;
+    int indece=0;
+    struct Nodo *Temp;
+    Temp=Lista.Raiz;
+    while(i!=Lista.size){
+        //Comparacion(str, Temp->Dato->Titulo->Titulo1);
+        if(Comparacion(str, Temp->Dato->Titulo->Titulo1)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Titulo->Titulo1;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }
+        if(Temp->Dato->Titulo->Titulo2!=NULL){
+        if(Comparacion(str, Temp->Dato->Titulo->Titulo2)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Titulo->Titulo2;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        if(Temp->Dato->Titulo->Titulo3!=NULL){
+        if(Comparacion(str, Temp->Dato->Titulo->Titulo3)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Titulo->Titulo3;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        if(Temp->Dato->Titulo->Titulo4!=NULL){
+        if(Comparacion(str, Temp->Dato->Titulo->Titulo4)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Titulo->Titulo4;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        if(Temp->Dato->Titulo->Titulo5!=NULL){
+        if(Comparacion(str, Temp->Dato->Titulo->Titulo5)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Titulo->Titulo5;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        Temp=Temp->Siguiente;
+        i++;
+    }
+    if(indece){
+        int j=0;
+        for(j;j<indece; j++){
+            printf("ID:%d Resultado: %s \n", ResulratdosBusqueda[j].Identi, ResulratdosBusqueda[j].Resu);
+        }
+    }else{
+        printf("Dato no encontrado \n");
+        MenuP();
+        }
+    imprimir();
+    }
+
+void BuscarAutor(char *str){
+    struct Resultados ResulratdosBusqueda [Lista.size];
+    int i=0;
+    int indece=0;
+    struct Nodo *Temp;
+    Temp=Lista.Raiz;
+    while(i!=Lista.size){
+        //Comparacion(str, Temp->Dato->Titulo->Titulo1);
+        if(Comparacion(str, Temp->Dato->Autor->Autor1)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Autor->Autor1;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }
+        if(Temp->Dato->Autor->Autor2!=NULL){
+        if(Comparacion(str, Temp->Dato->Autor->Autor2)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Autor->Autor2;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        if(Temp->Dato->Autor->Autor3!=NULL){
+        if(Comparacion(str, Temp->Dato->Autor->Autor3)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Autor->Autor3;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        if(Temp->Dato->Autor->Autor4!=NULL){
+        if(Comparacion(str, Temp->Dato->Autor->Autor4)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Autor->Autor4;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        if(Temp->Dato->Autor->Autor5!=NULL){
+        if(Comparacion(str, Temp->Dato->Autor->Autor5)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->Autor->Autor5;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        Temp=Temp->Siguiente;
+        i++;
+    }
+    if(indece){
+        int j=0;
+        for(j;j<indece; j++){
+            printf("ID:%d Resultado: %s \n", ResulratdosBusqueda[j].Identi, ResulratdosBusqueda[j].Resu);
+        }
+    }else{
+        printf("Dato no encontrado \n");
+        MenuP();
+        }
+    imprimir();
+    }
+
+void BuscarPalabraClave(char *str){
+    struct Resultados ResulratdosBusqueda [Lista.size];
+    int i=0;
+    int indece=0;
+    struct Nodo *Temp;
+    Temp=Lista.Raiz;
+    while(i!=Lista.size){
+        //Comparacion(str, Temp->Dato->Titulo->Titulo1);
+        if(Temp->Dato->PalabraClave!=NULL){
+        if(Comparacion(str, Temp->Dato->PalabraClave)){
+            ResulratdosBusqueda[indece].Resu=Temp->Dato->PalabraClave;
+            ResulratdosBusqueda[indece].Identi=Temp->Dato->Identificardor;
+            indece++;
+        }}
+        Temp=Temp->Siguiente;
+        i++;
+    }
+    if(indece){
+        int j=0;
+        for(j;j<indece; j++){
+            printf("ID:%d Resultado: %s \n", ResulratdosBusqueda[j].Identi, ResulratdosBusqueda[j].Resu);
+        }
+    }else{
+        printf("Dato no encontrado \n");
+        MenuP();
+        }
+    imprimir();
+    }
+
+
+
+void BuscarDocumento(){
+    ///home/jhonson/Escritorio/TP1.pdf
+    
+    
+    char str[50];
+    int selec;
+    printf(
+            "1.Titulo\n"
+            "2.Autor\n"
+            "3.Palabra clave\n"
+            "Seleccione un modo de busqueda: ");
+    scanf(" %d", &selec);
+    printf("Ingrese el dato a buscar: ");
+    gets(str);
+    gets(str);
+    switch(selec){
+        
+        case 1: {BuscarTitulo(&str[0]);
+                 break;}
+        case 2: {BuscarAutor(&str[0]);
+            break;}
+                 
+        case 3: {BuscarPalabraClave(&str[0]);
+                 break;}
+    
+        }
+}
+
 //Menu de las funcionalidades del programa
 void Menu(){
     int numero;
@@ -1243,10 +1459,9 @@ void Menu(){
     switch(numero){
         case 1: {AgregarMetadatos();
                  break;}
-        case 2: {
-            imprimir(&Lista);
+        case 2: {imprimir(&Lista);
                  break;}
-        case 3: {;
+        case 3: {BuscarDocumento();
                  break;}
         case 4: {creaXML();
                  break;}
