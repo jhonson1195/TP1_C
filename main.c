@@ -552,7 +552,7 @@ char * itoa(int n)
          s[i++] = '-';
      s[i] = '\0';
      j=s;
-     return j;
+     return Copiado(s);
 }
 
 
@@ -814,17 +814,21 @@ void AgregarMetadatos(){
 void creaXML(){
     ///home/jhonson/Escritorio/TP1.pdf
     struct Documento *informacion= BuscarID(&Lista);
-    char Union[100]={""};
+    char Union[100]={"/tmp/"};
     strcat(Union, itoa(informacion->Identificardor));
     strcat(Union, ".xml");
+    printf("%s", Union );
+    
     FILE *fb=fopen(Union ,"w");
     fprintf ( fb,"<?xml version=\"1.0\" encoding=\"utf-8\"?> \n");
 	fprintf ( fb,"<data>\n");
 	
 	fprintf ( fb,"<title> %s </title>\n",informacion->Titulo->Titulo1);
+        
 	if(informacion->Titulo->Titulo2!=NULL){
         	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo2 );  
     	}
+        
     	if(informacion->Titulo->Titulo3!=NULL){
         	fprintf(fb,"<title> %s </title>\n",informacion->Titulo->Titulo3 );  
     	}
@@ -866,17 +870,14 @@ void creaXML(){
 	fprintf ( fb,"<identifier> %d </identifier>\n",informacion->Identificardor);
 	fprintf ( fb,"<language> %s </language>\n",informacion->Lenguaje);
 	fprintf ( fb,"<publisher> %s </publisher>\n",informacion->Publicador);
-	
 	fprintf ( fb,"</data>\n");
-
-
-        
+        fclose(fb);
         MenuP();
 }
 
 void guardarDatos(struct ListaEnlazada *Lista){
     ///home/jhonson/Escritorio/TP1.pdf
-    FILE *fb=fopen("Metadatos.txt" ,"w");
+    FILE *fb=fopen("Repositorio/Metadatos.txt" ,"w");
     int i=0;
     struct Nodo *Temp;
     Temp=Lista->Raiz;
@@ -906,6 +907,7 @@ void guardarDatos(struct ListaEnlazada *Lista){
         fprintf ( fb,"%s\n", Temp->Dato->Lenguaje);
         fprintf ( fb,"%s\n", Temp->Dato->NombreArchivo);
         fprintf ( fb,"%s\n", Temp->Dato->PalabraClave);
+     
         fprintf ( fb,"%s\n", Temp->Dato->Publicador);
         fprintf ( fb,"%s\n", Temp->Dato->Relacion);
         fprintf ( fb,"%s\n", Temp->Dato->Ruta);
@@ -1144,10 +1146,12 @@ void agregarInfoDocumento(struct Documento *Documento, int Linea, char *STRING){
             break;
         }
         case 25: {
-            if(*STRING!='('& *(STRING+1)!='n' & *(STRING+2)!='u' & *(STRING+3)!='l'){
+            if((*STRING!='('& *(STRING+1)!='n')){
+                
                 Documento->Publicador=STRING;
             }
             else{
+                
                 Documento->Publicador=NULL;
             }
             break;
@@ -1180,7 +1184,7 @@ void cargarDatos(){
     int i=1;
     int g=0;
     
-    leeido = fopen ( "Metadatos.txt" , "r" );
+    leeido = fopen ("Repositorio/Metadatos.txt", "r" );
     if (leeido==NULL){return;}
     while (feof(leeido) == 0){
         caracter = fgetc(leeido);
@@ -1194,7 +1198,7 @@ void cargarDatos(){
     char *Temp;
     Puntero = (char *) malloc (i);
     Temp=Puntero;
-    leeido = fopen ("Metadatos.txt" , "r");
+    leeido = fopen ("Repositorio/Metadatos.txt" , "r");
     while (feof(leeido) == 0){
         caracter = fgetc(leeido);
         *Temp=caracter;
@@ -1250,6 +1254,8 @@ void cargarDatos(){
                 Inicio=Final;
                 conta=0;
             }else{
+          
+                
                 agregarInfoDocumento(Documentos, conta, crearString(Inicio, i-1));
                 i=0;
                 Final++;
@@ -1516,10 +1522,11 @@ void Menu(){
 
 //Funcion que ejecuta las otras funciones
 int main() {
-    cargarDatos();
-    //Guarda en un arreglo el directorio actual donde se ejecuta c
     DirectorioActual();
     system("mkdir Repositorio");
+    cargarDatos();
+    //Guarda en un arreglo el directorio actual donde se ejecuta c
+   
     MenuP=Menu;
     MenuP();
     
