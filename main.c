@@ -686,6 +686,44 @@ char * NuevaRuta(char str[]){
     return Copiado(strTemp);
 }
 
+
+//**************************************************************
+//**************************************************************
+//**************************************************************
+//**************************************************************
+//**************************************************************
+
+
+void recuperarArchivos(){
+    char pdf1[200] = "pdftk ";
+    char pdf2[200] = " cat output /tmp/salida.pdf";
+    char direccion[200]="";
+    char espacio[10]=" ";
+    strcat(direccion,pdf1);
+    struct Documento *informacion= BuscarID(&Lista);
+    strcat(direccion,informacion->Ruta);
+
+    int conta=1;
+    while(conta){
+        printf("Desea recuperar otro documento S/N: ");
+        char SN;
+        scanf(" %c", &SN);
+        if('S'==SN || 's'==SN){
+            informacion= BuscarID(&Lista);
+            strcat(direccion,espacio);
+            strcat(direccion,informacion->Ruta);
+    }else{
+        conta=0;
+    }
+}
+    strcat(direccion,pdf2);
+
+    printf("%s\n",direccion );
+    system (direccion);
+    printf("Se ejecuto system ");
+MenuP();
+}
+
 //Funcion donde se pide toda la informacion del documento
 void AgregarMetadatos(){
     ///home/jhonson/Escritorio/TP1.pdf
@@ -1465,7 +1503,8 @@ void Menu(){
                  break;}
         case 4: {creaXML();
                  break;}
-        case 5: {return;}
+        case 5: {recuperarArchivos();
+                break;}
         
         case 6: {guardarDatos(&Lista);
             
@@ -1486,6 +1525,7 @@ int main() {
     
     return (EXIT_SUCCESS);
 }
+
 
 
 
