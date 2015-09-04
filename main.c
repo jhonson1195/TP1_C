@@ -878,6 +878,7 @@ void creaXML(){
         fprintf ( fb,"<dc:route> %s </dc:route>\n",informacion->Ruta);
         fprintf ( fb,"<dc:File_name> %s </dc:file_name>\n",informacion->NombreArchivo);
         fprintf (fb, "</oai_dc:dc\n>");
+        
 	fprintf ( fb,"</data>\n");
         fclose(fb);
         MenuP();
