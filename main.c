@@ -229,18 +229,52 @@ char * Copiado(char  Arreglo []){
     
 }
 
+char * getStr(){
+    char TempStr[400];
+    char letra;
+    int indice=0;
+    
+    char temp=getchar();
+    
+    if(temp!='\n'){
+        TempStr[0]=temp;
+        indice++;
+    }
+    
+    while((letra = getchar()) != EOF){
+        if (letra == '\n'){
+            break;
+        }
+        TempStr[indice]=letra;
+        indice++;
+    }
+    
+    TempStr[indice]='\0';
+    
+    return Copiado(TempStr);
+}
+
+
 
 //Decuelve un puntero de tipo titulo que almacena un maximo de 5 titulos
 struct Titulo * AgregarTitulos(){
-    char str[100];
+    char *str;
     struct Titulo *Titulos;
     Titulos = (struct Titulo *) malloc (sizeof(struct Titulo));
+    Titulos->Titulo1=NULL;
+    Titulos->Titulo2=NULL;
+    Titulos->Titulo3=NULL;
+    Titulos->Titulo4=NULL;
+    Titulos->Titulo5=NULL;
     char SN;
     int i=0;
     while(i!=5){
         Labe:;
         printf("Titulo del archivo: ");
-        scanf(" %s", str);
+        str = getStr();
+        if(0==*str){goto Labe;};
+        
+        //scanf(" %s", str);
         if(  Titulos->Titulo1 !=NULL){
             if(!strcmp(Titulos->Titulo1, str)){
             printf("Dato duplicado ingrese de nuevo el dato \n");
@@ -268,15 +302,15 @@ struct Titulo * AgregarTitulos(){
         }
         
         switch(i){
-            case 0: {Titulos->Titulo1=Copiado(str);
+            case 0: {Titulos->Titulo1=str;
                      break;}
-            case 1: {Titulos->Titulo2=Copiado(str);
+            case 1: {Titulos->Titulo2=str;
                      break;}
-            case 2: {Titulos->Titulo3=Copiado(str);
+            case 2: {Titulos->Titulo3=str;
                      break;}
-            case 3: {Titulos->Titulo4=Copiado(str);
+            case 3: {Titulos->Titulo4=str;
                      break;}
-            case 4: {Titulos->Titulo5=Copiado(str);
+            case 4: {Titulos->Titulo5=str;
                      break;}
         }
         
@@ -296,17 +330,25 @@ struct Titulo * AgregarTitulos(){
 
 //Devuelve un puntero autor que almacena un maximo de 5 autores
 struct Autor * AgregarAutores(){
-    char str[50];
+    char *str;
     struct Autor *Autores;
     Autores = (struct Autor *) malloc (sizeof(struct Autor));
+    Autores->Autor1=NULL;
+    Autores->Autor2=NULL;
+    Autores->Autor3=NULL;
+    Autores->Autor4=NULL;
+    Autores->Autor5=NULL;
+    
     char SN;
     int i=0;
     while(i!=5){
         Labe:;
         printf("Autor del archivo: ");
-        scanf(" %s", str);
+        str = getStr();
+        if(0==*str){goto Labe;};
         
         if(  Autores->Autor1 !=NULL){
+         
             if(!strcmp(Autores->Autor1, str)){
             printf("Dato duplicado ingrese de nuevo el dato \n");
             goto Labe;}
@@ -333,15 +375,15 @@ struct Autor * AgregarAutores(){
         }
         
         switch(i){
-            case 0: {Autores->Autor1=Copiado(str);
+            case 0: {Autores->Autor1=str;
                      break;}
-            case 1: {Autores->Autor2=Copiado(str);
+            case 1: {Autores->Autor2=str;
                      break;}
-            case 2: {Autores->Autor3=Copiado(str);
+            case 2: {Autores->Autor3=str;
                      break;}
-            case 3: {Autores->Autor4=Copiado(str);
+            case 3: {Autores->Autor4=str;
                      break;}
-            case 4: {Autores->Autor5=Copiado(str);
+            case 4: {Autores->Autor5=str;
                      break;}
         }
         
@@ -361,15 +403,21 @@ struct Autor * AgregarAutores(){
 }
 //Devuelve un puntero de tipo descripcion el cual tiene una capacidad maxima de 5 descripciones
 struct Descripcion * AgregarDescipcion(){
-    char str[200];
+    char *str;
     struct Descripcion *Descripcion;
     Descripcion = (struct Descripcion *) malloc (sizeof(struct Descripcion));
+    Descripcion->Descripcion1=NULL;
+    Descripcion->Descripcion2=NULL;
+    Descripcion->Descripcion3=NULL;
+    Descripcion->Descripcion4=NULL;
+    Descripcion->Descripcion5=NULL;
     char SN;
     int i=0;
     while(i!=5){
         Labe:;
         printf("Descripcion del archivo: ");
-        scanf(" %s", str);
+        str = getStr();
+        if(0==*str){goto Labe;};
         
         if(  Descripcion->Descripcion1 !=NULL){
             if(!strcmp(Descripcion->Descripcion1, str)){
@@ -398,15 +446,15 @@ struct Descripcion * AgregarDescipcion(){
         }
         
         switch(i){
-            case 0: {Descripcion->Descripcion1=Copiado(str);
+            case 0: {Descripcion->Descripcion1=str;
                      break;}
-            case 1: {Descripcion->Descripcion2=Copiado(str);
+            case 1: {Descripcion->Descripcion2=str;
                      break;}
-            case 2: {Descripcion->Descripcion3=Copiado(str);
+            case 2: {Descripcion->Descripcion3=str;
                      break;}
-            case 3: {Descripcion->Descripcion4=Copiado(str);
+            case 3: {Descripcion->Descripcion4=str;
                      break;}
-            case 4: {Descripcion->Descripcion5=Copiado(str);
+            case 4: {Descripcion->Descripcion5=str;
                      break;}
         }
         
@@ -440,7 +488,7 @@ char * ValidarFecha(){
         return Copiado(str);
     }
     else{
-        printf("Por favor ingrese la fecha deacuerdo al formato ");
+        printf("Por favor ingrese la fecha deacuerdo al formato \n");
         ValidarFecha();
      
     }
@@ -452,7 +500,7 @@ int IdentificardorValidacion(struct ListaEnlazada *Lista){
     Temp=Lista->Raiz;
     int ID =Lista->size;
     while(i!=Lista->size){
-        if(Temp->Dato->Identificardor==Lista->size){
+        if(Temp->Dato->Identificardor==ID){
             ID++;
             Temp=Lista->Raiz;
             i=0;
@@ -494,38 +542,38 @@ char * LenguajeValidacion(){
     printf("Desea cambiar el idioma S/N: ");
     char SN;
     scanf(" %c", &SN);
-    char IDO[10];
+    char *IDO;
     if('S'==SN || 's'==SN){
         restric:;
         printf("Idioma: ");
-        scanf(" %s", IDO);
+        IDO = getStr();
         //Ingles
         if(!strncmp("ENG", IDO, 3)){
-            return Copiado(IDO);
+            return IDO;
         }
         //Frances
         if(!strncmp("FRA", IDO, 3)){
-            return Copiado(IDO);
+            return IDO;
         }
         //Italiano
         if(!strncmp("ITA", IDO, 3)){
-            return Copiado(IDO);
+            return IDO;
         }
         //Coreano
         if(!strncmp("KOR", IDO, 3)){
-            return Copiado(IDO);
+            return IDO;
         }
         //Latin
         if(!strncmp("LAT", IDO, 3)){
-            return Copiado(IDO);
+            return IDO;
         }
         //Portugues
         if(!strncmp("POR", IDO, 3)){
-            return Copiado(IDO);
+            return IDO;
         }
         //CHino
         if(!strncmp("ZHO", IDO, 3)){
-            return Copiado(IDO);
+            return IDO;
         }
         
         printf("Formato invalido o idioma \n");
@@ -594,7 +642,7 @@ char Dato14[]={"info:eu-repo/semantics/patent"};
 char Dato15[]={"info:eu-repo/semantics/other"};
 
 struct Documento * Tipo(struct Documento *Docu){
-    printf("Tipo de documento:  ");
+    printf("Tipo de documento:  \n");
     printf("1. %s\n"
             "2. %s\n"
             "3. %s\n"
@@ -818,12 +866,13 @@ void recuperarArchivos(){
 //Funcion donde se pide toda la informacion del documento
 void AgregarMetadatos(){
     ///home/jhonson/Escritorio/TP1.pdf
-    char str[200]; 
+    char *str; 
     struct Documento *Documentos;
     Documentos = (struct Documento *) malloc (sizeof(struct Documento));
     
     printf("Ruta del documento: ");
-    scanf(" %s", str);
+    str = getStr();
+    
     CopiarArchivo(str);
     Documentos->NombreArchivo=ExtraerNombre(str);
     Documentos->Ruta=NuevaRuta(str);
@@ -831,9 +880,16 @@ void AgregarMetadatos(){
     Documentos->Autor=AgregarAutores();
     Documentos->Descripcion=AgregarDescipcion();
     
+    label2:;
     printf("Palabra clave: ");
-    scanf(" %s", str);
-    Documentos->PalabraClave=Copiado(str);
+    str = getStr();
+    if(0!=*str){
+        Documentos->PalabraClave=str;
+    }else{
+        goto label2;
+    }
+    
+    
     
     Documentos->Fecha=ValidarFecha();
     Documentos->Identificardor=IdentificardorValidacion(&Lista);
@@ -841,53 +897,55 @@ void AgregarMetadatos(){
     
     
     printf("Publicador: ");
-    gets(str);
-    gets(str);
-    if(0!=str[0]){
-        Documentos->Publicador=Copiado(str);
+    str = getStr();
+    if(0!=*str){
+        Documentos->Publicador=str;
     }
     printf("Contribullentes: ");
-    gets(str);
-    if(0!=str[0]){
-        Documentos->Contibullentes=Copiado(str);
+    str = getStr();
+    if(0!=*str){
+        Documentos->Contibullentes=str;
     }
     
     printf("Fuente: ");
-    gets(str);
-    if(0!=str[0]){
-        Documentos->Fuente=Copiado(str);
+    str = getStr();
+    if(0!=*str){
+        Documentos->Fuente=str;
     }
     printf("Relacion: ");
-    gets(str);
-    if(0!=str[0]){
-        Documentos->Relacion=Copiado(str);
+    str = getStr();
+    if(0!=*str){
+        Documentos->Relacion=str;
     }
     
     printf("Covertura: ");
-    gets(str);
+    str = getStr();
     if(0!=str[0]){
-        Documentos->Covertura=Copiado(str);
+        Documentos->Covertura=str;
     }
     
     printf("Derechos: ");
-    gets(str);
-    if(0!=str[0]){
-        Documentos->Derechos=Copiado(str);
+    str = getStr();
+    if(0!=*str){
+        Documentos->Derechos=str;
     }
     
     Documentos->Lenguaje=LenguajeValidacion();
-    
-    printf("Formato: %s \n", obtenerPeso(Documentos));
+    char *teem=obtenerPeso(Documentos);
+    char str1[50];
+    printf("Formato: %s \n", teem);
     char SN;
     printf("Desea cambiar el formato S/N: ");
     scanf(" %c", &SN);
     if('S'==SN || 's'==SN){
         printf("Formato: ");
-        scanf(" %s", str);
-        Documentos->Formato=Copiado(str);
+        scanf(" %s", str1);
+        strcat(str1, teem+3);
+        printf("%s", str1);
+        Documentos->Formato=Copiado(str1);
         
     }else{
-        Documentos->Formato=obtenerPeso(Documentos);
+        Documentos->Formato=teem;
     }
   
     Tipo(Documentos);
@@ -1285,7 +1343,8 @@ void cargarDatos(){
     int g=0;
     
     leeido = fopen ("Repositorio/Metadatos.txt", "r" );
-    if (leeido==NULL){return;}
+    if (leeido==NULL){
+        return;}
     while (feof(leeido) == 0){
         caracter = fgetc(leeido);
         if(caracter=='\n'){
@@ -1561,7 +1620,7 @@ void BuscarDocumento(){
     ///home/jhonson/Escritorio/TP1.pdf
     
     
-    char str[50];
+    char *str;
     int selec;
     printf(
             "1.Titulo\n"
@@ -1570,16 +1629,15 @@ void BuscarDocumento(){
             "Seleccione un modo de busqueda: ");
     scanf(" %d", &selec);
     printf("Ingrese el dato a buscar: ");
-    gets(str);
-    gets(str);
+    str=getStr();
     switch(selec){
         
-        case 1: {BuscarTitulo(&str[0]);
+        case 1: {BuscarTitulo(str);
                  break;}
-        case 2: {BuscarAutor(&str[0]);
+        case 2: {BuscarAutor(str);
             break;}
                  
-        case 3: {BuscarPalabraClave(&str[0]);
+        case 3: {BuscarPalabraClave(str);
                  break;}
     
         }
