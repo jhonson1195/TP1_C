@@ -687,21 +687,59 @@ char * NuevaRuta(char str[]){
 }
 
 
-//**************************************************************
-//**************************************************************
-//**************************************************************
-//**************************************************************
-//**************************************************************
-
-
+//Funcion que permite recuperar archivos del repositorio y mostrarlos en un solo pdf
 void recuperarArchivos(){
-    char pdf1[200] = "pdftk ";
-    char pdf2[200] = " cat output /tmp/salida.pdf";
-    char direccion[200]="";
-    char espacio[10]=" ";
-    strcat(direccion,pdf1);
+    char pdf1[20] = "pdftk ";
+    char pdf2[50] = " cat output /tmp/salidafinal.pdf";
+    char pdffinal[200]="";
+    char espacio[5]=" ";
+
+    char txtfinal[200]=" ";
+    char txt2[50]="enscript -p /tmp/salida.ps ";
+    char txt5[50]="/tmp/salida.ps ";
+
+    char psfinal[200]=" ";
+    char ps2[20]="ps2pdf ";
+    char ps3[50]="/tmp/salida.pdf ";
+
+
+    strcat(pdffinal,pdf1);
+
+
     struct Documento *informacion= BuscarID(&Lista);
-    strcat(direccion,informacion->Ruta);
+    char *rutas = informacion->Ruta;
+    int n=0;
+    for (n=0;*rutas!= '\0';rutas++){
+        if(*rutas=='.'){
+            
+            rutas++;
+            
+
+            if (*rutas=='p'){
+                //printf("El archivo es pdf \n");
+                                strcat(pdffinal,informacion->Ruta);
+                                //printf("Entro al int, el puntero es: %s \n",informacion->Ruta);
+
+            }else{
+                //printf("El archivo es txt \n");
+                //printf("Entro al int, el puntero es: %s \n",informacion->Ruta);
+                strcat(txtfinal,txt2);
+                strcat(txtfinal,informacion->Ruta);
+                system(txtfinal);
+
+                strcat(psfinal,ps2);
+                strcat(psfinal,txt5);
+                strcat(psfinal,ps3);
+                system(psfinal);
+
+                strcat(pdffinal,ps3);
+
+            }
+
+        }
+        n++;
+    }
+    
 
     int conta=1;
     while(conta){
@@ -709,20 +747,53 @@ void recuperarArchivos(){
         char SN;
         scanf(" %c", &SN);
         if('S'==SN || 's'==SN){
+            
             informacion= BuscarID(&Lista);
-            strcat(direccion,espacio);
-            strcat(direccion,informacion->Ruta);
+            char *rutas = informacion->Ruta;
+            strcat(pdffinal,espacio);
+
+            for (n=0;*rutas!= '\0';rutas++){
+        if(*rutas=='.'){
+            
+            rutas++;
+            
+
+            if (*rutas=='p'){
+                //printf("El archivo es pdf \n");
+                                strcat(pdffinal,informacion->Ruta);
+                                //printf("Entro al int, el puntero es: %s \n",informacion->Ruta);
+
+            }else{
+                //printf("El archivo es txt \n");
+                //printf("Entro al int, el puntero es: %s \n",informacion->Ruta);
+                strcat(txtfinal,txt2);
+                strcat(txtfinal,informacion->Ruta);
+                system(txtfinal);
+
+                strcat(psfinal,ps2);
+                strcat(psfinal,txt5);
+                strcat(psfinal,ps3);
+                system(psfinal);
+
+                strcat(pdffinal,ps3);
+            }
+        }
+        n++;
+    }
+            
+            
     }else{
         conta=0;
     }
 }
-    strcat(direccion,pdf2);
+    strcat(pdffinal,pdf2);
 
-    printf("%s\n",direccion );
-    system (direccion);
-    printf("Se ejecuto system ");
+    //printf("%s\n",pdffinal  );
+    system (pdffinal);
+    //printf("Se ejecuto system ");
 MenuP();
 }
+
 
 //Funcion donde se pide toda la informacion del documento
 void AgregarMetadatos(){
