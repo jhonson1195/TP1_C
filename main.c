@@ -689,7 +689,23 @@ char * NuevaRuta(char str[]){
 
 //Funcion que permite recuperar archivos del repositorio y mostrarlos en un solo pdf
 void recuperarArchivos(){
-    char pdf1[20] = "pdftk ";
+    char tmp1 [50]="cp ";
+    char tmp2 [50]=" /tmp";
+
+    printf("Desea recuperar un documento (Ingrese A) o varios documentos (Ingrese V) ");
+    char AV;
+        scanf(" %c", &AV);
+        if('A'==AV || 'a'==AV){
+            struct Documento *informacion= BuscarID(&Lista);
+            
+            strcat(tmp1,informacion->Ruta);
+            strcat(tmp1,tmp2);
+            system(tmp1);
+
+
+
+        }else{
+            char pdf1[20] = "pdftk ";
     char pdf2[50] = " cat output /tmp/salidafinal.pdf";
     char pdffinal[200]="";
     char espacio[5]=" ";
@@ -791,8 +807,12 @@ void recuperarArchivos(){
     //printf("%s\n",pdffinal  );
     system (pdffinal);
     //printf("Se ejecuto system ");
-MenuP();
+
+
+        }
+    MenuP();
 }
+
 
 
 //Funcion donde se pide toda la informacion del documento
